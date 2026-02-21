@@ -13,7 +13,6 @@ import java.util.List;
 @Table(name = "users")
 @Entity
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -37,8 +36,12 @@ public class User implements UserDetails {
     private Date updatedAt;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities(){
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override
@@ -47,22 +50,22 @@ public class User implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired(){
+    public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isAccountNonLocked(){
+    public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
-    public boolean isCredentialsNonExpired(){
+    public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
-    public boolean isEnabled(){
+    public boolean isEnabled() {
         return true;
     }
 
@@ -78,7 +81,7 @@ public class User implements UserDetails {
         return fullName;
     }
 
-    public void setFullName(String nomeCompleto) {
+    public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
@@ -88,10 +91,6 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
