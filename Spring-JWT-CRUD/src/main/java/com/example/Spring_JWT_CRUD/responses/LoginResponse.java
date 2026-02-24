@@ -3,7 +3,8 @@ package com.example.Spring_JWT_CRUD.responses;
 public class LoginResponse {
     private String token;
     private long expiresIn;
-    private String getToken(){
+
+    public String getToken(){
         return token;
     }
 
