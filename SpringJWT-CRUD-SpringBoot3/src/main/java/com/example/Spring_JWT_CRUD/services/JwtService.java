@@ -72,7 +72,6 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // O ERRO ESTAVA AQUI: Mudamos .parseClaimsJwt para .parseClaimsJws
     private Claims extractAllClaim(String token){
         return Jwts
                 .parserBuilder()
