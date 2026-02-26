@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuários</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f0f2f5; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .header-list { display: flex; justify-content: space-between; align-items: center; }
+        .logout-btn { background: #dc3545; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-list">
+            <h2>Usuários Cadastrados</h2>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                </tr>
+            </thead>
+            <tbody id="userBody">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function carregarUsuarios() {
+            const token = localStorage.getItem('token_jwt');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:8005/users/', {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const users = await response.json();
+                    const tableBody = document.getElementById('userBody');
+                    tableBody.innerHTML = users.map(user => `
+                        <tr>
+                            <td>${user.id}</td>
+                            <td>${user.fullName}</td>
+                            <td>${user.email}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    alert('Sessão expirada ou não autorizada');
+                    logout();
+                }
+            } catch (error) {
+                console.error('Erro ao buscar usuários:', error);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('token_jwt');
+            window.location.href = 'login.html';
+        }
+
+     
+        carregarUsuarios();
+    </script>
+</body>
+</html>
