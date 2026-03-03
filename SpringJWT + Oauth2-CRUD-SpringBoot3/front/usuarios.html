@@ -34,6 +34,25 @@
     </div>
 
     <script>
+        function gerenciarToken() {
+        // 1. Verifica se o token veio pela URL (Login Social)
+        const urlParams = new URLSearchParams(window.location.search);
+        const tokenDaUrl = urlParams.get('token');
+
+        if (tokenDaUrl) {
+            localStorage.setItem('token_jwt', tokenDaUrl);
+            // Limpa a URL para não ficar expondo o token
+            window.history.replaceState({}, document.title, "/usuarios.html");
+        }
+
+        // 2. Se não tem token em lugar nenhum, volta pro login
+        const token = localStorage.getItem('token_jwt');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+    }
+        gerenciarToken();
+        
         async function carregarUsuarios() {
             const token = localStorage.getItem('token_jwt');
             if (!token) {

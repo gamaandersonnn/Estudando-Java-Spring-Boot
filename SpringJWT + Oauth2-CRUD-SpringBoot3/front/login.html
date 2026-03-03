@@ -8,9 +8,38 @@
         .login-card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 300px; }
         h2 { text-align: center; color: #333; }
         input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         button:hover { background: #0056b3; }
-        .registerButton { background: #28a745; margin-top: 10px; }
+        
+        .registerButton { background: #28a745; margin-top: 5px; }
+        .registerButton:hover { background: #218838; }
+
+        /* Estilo para o botão do Google */
+        .btn-google { 
+            width: 100%; 
+            padding: 10px; 
+            background: white; 
+            color: #444; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-decoration: none; 
+            font-size: 14px;
+            font-weight: bold;
+            box-sizing: border-box;
+            margin-top: 5px;
+        }
+        .btn-google:hover { background: #f8f9fa; border-color: #ccc; }
+        .btn-google img { width: 18px; margin-right: 10px; }
+
+        .divider { text-align: center; margin: 15px 0; color: #777; font-size: 12px; position: relative; }
+        .divider::before { content: ""; position: absolute; left: 0; top: 50%; width: 40%; border-bottom: 1px solid #ddd; }
+        .divider::after { content: ""; position: absolute; right: 0; top: 50%; width: 40%; border-bottom: 1px solid #ddd; }
+        
         #message { color: red; text-align: center; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
@@ -19,8 +48,19 @@
         <h2>Entrar</h2>
         <input type="email" id="email" placeholder="E-mail" required>
         <input type="password" id="password" placeholder="Senha" required>
+        
         <button onclick="fazerLogin()">Login</button>
+        
+        <div class="divider">ou</div>
+
+        <a href="http://localhost:8005/oauth2/authorization/google" class="btn-google">
+            Entrar com o Google
+        </a>
+
+        <div class="divider">ainda não tem conta?</div>
+
         <button class="registerButton" onclick="window.location.href='registrar.html'">Registrar</button>
+        
         <div id="message"></div>
     </div>
 
@@ -39,7 +79,6 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                  
                     localStorage.setItem('token_jwt', data.token);
                     window.location.href = 'usuarios.html'; 
                 } else {
